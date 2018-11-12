@@ -3,7 +3,7 @@ const VueBarcodeScanner = {
     /* global Audio */
     // default plugin setting
     let attributes = {
-      previouseCode: '',
+      previousCode: '',
       barcode: '',
       setting: {
         sound: false,
