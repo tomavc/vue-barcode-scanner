@@ -9,7 +9,9 @@ const VueBarcodeScanner = {
         sound: false,
         soundSrc: '',
         scannerSensitivity: 100,
-        requiredAttr: false
+        requiredAttr: false,
+        totalBarcodeReadTime:300,
+        triggerKey: true
       },
       callback: null,
       hasListener: false,
@@ -73,6 +75,14 @@ const VueBarcodeScanner = {
       if (event.type === 'keydown' && event.keyCode != 9 ) {
         return
       }
+
+      if(!attributes.setting.triggerKey){
+        attributes.setting.triggerKey = true
+        setTimeout(function(){
+            onInputScanned( new KeyboardEvent("keypress", {bubbles: true, cancelable: true, keyCode: 13}) )
+            attributes.setting.triggerKey = false
+        }, attributes.setting.totalBarcodeReadTime)
+      } 
 
       if (checkInputElapsedTime(Date.now())) {
         // check if field has 'data-barcode' attribute
