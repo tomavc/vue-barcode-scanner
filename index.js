@@ -10,8 +10,9 @@ const VueBarcodeScanner = {
         soundSrc: '',
         scannerSensitivity: 100,
         requiredAttr: false,
-        totalBarcodeReadTime:300,
-        triggerKey: true
+        totalBarcodeReadTime: 50,
+        triggerKey: false,
+        minBarcodeLength: 3
       },
       callback: null,
       hasListener: false,
@@ -79,7 +80,9 @@ const VueBarcodeScanner = {
       if(!attributes.setting.triggerKey){
         attributes.setting.triggerKey = true
         setTimeout(function(){
-            onInputScanned( new KeyboardEvent("keypress", {bubbles: true, cancelable: true, keyCode: 13}) )
+            if(attributes.barcode.length >= attributes.setting.minBarcodeLength){
+              onInputScanned( new KeyboardEvent("keypress", {bubbles: true, cancelable: true, keyCode: 13}) )
+            }
             attributes.setting.triggerKey = false
         }, attributes.setting.totalBarcodeReadTime)
       } 
